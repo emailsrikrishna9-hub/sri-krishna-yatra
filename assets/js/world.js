@@ -16,7 +16,7 @@
   try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
   var renderer = null, running = false, started = false, plainEl = $('plain');
   function setPlain(on, init) {
-    root.classList.toggle('plain-on', on); plainEl.hidden = !on; if (!init) store('yatra-plain', on ? '1' : '0');
+    root.classList.toggle('plain-on', on); plainEl.hidden = !on; if (!init) { try { window.sessionStorage.setItem('yatra-plain-v2', on ? '1' : '0'); } catch (e) {} }
     if (on) { running = false; if (!init) { window.scrollTo(0, 0); plainEl.focus({ preventScroll: true }); } }
     else if (renderer) { running = true; if (!started) start(); window.requestAnimationFrame(frame); }
   }
@@ -26,7 +26,7 @@
     if (window.THREE) renderer = new THREE.WebGLRenderer({ canvas: $('gl'), antialias: window.devicePixelRatio < 2 && !LOW, powerPreference: 'high-performance' });
   } catch (e) { renderer = null; }
   if (!renderer) { root.classList.add('plain-on'); $('bRide').hidden = true; $('skipText').hidden = true; return; }
-  var savedPlain = store('yatra-plain');
+  var savedPlain = null; try { savedPlain = window.sessionStorage.getItem('yatra-plain-v2'); } catch (e) {}
   var initialPlain = savedPlain === '1' || /[#&]text/.test(location.hash);
   $('hud').hidden = false;
 
