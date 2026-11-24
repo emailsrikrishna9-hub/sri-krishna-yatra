@@ -540,10 +540,13 @@
     wheels.forEach(function (wh) { wh.rotation.x -= dz * 1.6; });
     /* camera: platform view at the start, follow view once the train has left */
     var port = W / Hh < .8, back = port ? 58 : 47, hgt = port ? 12 : 8.8, ipc = smooth(0, 1, pos);
-    var cx0 = -9.4 + Math.sin(time * .35) * .6 * amb, cy0 = 2.7 + Math.sin(time * .27) * .12 * amb, cz0 = z + (port ? 24 : 18);
+    var cx0 = (port ? -66 : -64) + Math.sin(time * .35) * .6 * amb, cy0 = (port ? 9 : 6.5) + Math.sin(time * .27) * .12 * amb, cz0 = z + 12;
     camera.position.set(lerp(cx0, 0, ipc), lerp(cy0, hgt, ipc), lerp(cz0, z + back, ipc));
-    tgt.set(lerp(-1.5, 0, ipc), lerp(3.4, 3.2, ipc), lerp(z + 1, z - 22, ipc)); camera.lookAt(tgt);
-    camera.fov = lerp(port ? 64 : 48, port ? 74 : 62, ipc); camera.updateProjectionMatrix();
+    tgt.set(lerp(0, 0, ipc), lerp(2.6, 3.2, ipc), lerp(z + 15, z - 22, ipc)); camera.lookAt(tgt);
+    camera.fov = lerp(port ? 52 : 38, port ? 74 : 62, ipc);
+    /* at the start the train sits in the free part of the screen: right and low on desktop, low on phones */
+    var vk = 1 - ipc; if (vk > .002) camera.setViewOffset(W, Hh, port ? 0 : -W * .1 * vk, -Hh * (port ? .3 : .2) * vk, W, Hh); else camera.clearViewOffset();
+    camera.updateProjectionMatrix();
     /* biome atmosphere */
     var b = bio(fv), sy = b.sunY;
     sd.set(.35, Math.max(sy, -.25), -.9).normalize();
