@@ -406,6 +406,26 @@
   for (var sg2 = 0; sg2 < 14; sg2++) { var gz = Z0 - 40 - sg2 * 110, sgp = new THREE.Mesh(new THREE.CylinderGeometry(.12, .15, 6, 6), postMat); sgp.position.set(6.4, 3, gz); scene.add(sgp); var sgb = new THREE.Mesh(new THREE.BoxGeometry(.6, 1.4, .4), flat(0x20242c)); sgb.position.set(6.4, 6.3, gz); scene.add(sgb); var sgl = new THREE.Mesh(new THREE.SphereGeometry(.22, 8, 6), new THREE.MeshBasicMaterial({ color: 0x35e07a })); sgl.position.set(6.4, 6.7, gz + .25); scene.add(sgl); }
   consolidateWorld();
 
+  /* ---------- the logos rise into the sky at the last stop ---------- */
+  var skyLogos = [], skyKeys = ['icon', 'telangana', 'aiesec', 'ted', 'akshaya', 'niti', 'harvard', 'mu', 'jagriti', 'iift', 'rotaract'];
+  (function () {
+    var zf = zStation(N - 1), nK = skyKeys.length;
+    skyKeys.forEach(function (k, i) {
+      var c = document.createElement('canvas'); c.width = 256; c.height = 256; var g = c.getContext('2d'), tex = new THREE.CanvasTexture(c);
+      function draw() {
+        g.clearRect(0, 0, 256, 256); g.fillStyle = '#ffffff'; g.beginPath(); g.moveTo(52, 10); g.arcTo(246, 10, 246, 246, 44); g.arcTo(246, 246, 10, 246, 44); g.arcTo(10, 246, 10, 10, 44); g.arcTo(10, 10, 246, 10, 44); g.fill(); g.lineWidth = 8; g.strokeStyle = '#0b1d3a'; g.stroke();
+        if (k === 'ted') { g.fillStyle = '#e62b1e'; g.font = '800 78px Arial'; g.textAlign = 'center'; g.fillText('TED', 112, 150); g.fillStyle = '#111'; g.font = '800 50px Arial'; g.fillText('x', 205, 150); }
+        else { var e = logoCache[k]; if (e && e.ok) { var iw = e.img.naturalWidth || 200, ih = e.img.naturalHeight || 200, sc = Math.min(196 / iw, 196 / ih), dw = iw * sc, dh = ih * sc; try { g.drawImage(e.img, 128 - dw / 2, 128 - dh / 2, dw, dh); } catch (er) {} } }
+        tex.needsUpdate = true;
+      }
+      if (k !== 'ted') logoImg(k, draw); draw();
+      var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, fog: false })), ang = (i / (nK - 1) - .5) * 1.9, row = i % 2;
+      sp.position.set(Math.sin(ang) * 96, 104 + row * 20, zf - 100 - Math.cos(ang) * 30); sp.scale.set(21, 21, 1); sp.userData = { y0: sp.position.y, ph: i * .9, x0: sp.position.x, yp: 100 + (i % 3) * 17, i: i }; sp.visible = false; scene.add(sp); skyLogos.push(sp);
+    });
+    var bc = document.createElement('canvas'); bc.width = 1024; bc.height = 160; var bg2 = bc.getContext('2d'); bg2.fillStyle = '#ffc83d'; bg2.font = '800 66px "Inter Tight", Arial, sans-serif'; bg2.textAlign = 'center'; bg2.fillText('ORGANISATIONS IN THIS JOURNEY', 512, 108);
+    var bs = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(bc), transparent: true, opacity: 0, depthWrite: false, fog: false })); bs.position.set(0, 150, zf - 140); bs.scale.set(70, 11, 1); bs.visible = false; bs.userData = { y0: 150, ph: 0, x0: 0, yp: 158, ban: true }; scene.add(bs); skyLogos.push(bs);
+  })();
+
   /* ---------- cards, index, navigation: one gesture = one stop ---------- */
   var card = $('card'), hero = $('hero'), hudEl = $('hud'), live = $('live'), pcount = $('pcount'), cutEl = $('cut'), idxEl = $('index'), sheet = $('sheet'), sheetBody = $('sheetBody'), bPrev = $('bPrev'), bNext = $('bNext'), bIndex = $('bIndex');
   var cur = 0, pos = 0, from = 0, to = 0, tStart = 0, moving = false, riding = false, jumped = false, sheetOpen = false, lastFocus = null;
@@ -545,7 +565,9 @@
     var port = W / Hh < .8, back = port ? 58 : 47, hgt = port ? 12 : 8.8, ipc = smooth(0, 1, pos);
     var cx0 = (port ? -66 : -64) + Math.sin(time * .35) * .6 * amb, cy0 = (port ? 9 : 6.5) + Math.sin(time * .27) * .12 * amb, cz0 = z + 12;
     camera.position.set(lerp(cx0, 0, ipc), lerp(cy0, hgt, ipc), lerp(cz0, z + back, ipc));
-    tgt.set(lerp(0, 0, ipc), lerp(2.6, 3.2, ipc), lerp(z + 15, z - 22, ipc)); camera.lookAt(tgt);
+    var endK = smooth(N - 2.4, N - 1, pos);
+    tgt.set(lerp(0, 0, ipc), lerp(2.6, 3.2, ipc) + endK * 38, lerp(z + 15, z - 22, ipc) - endK * 22); camera.lookAt(tgt);
+    skyLogos.forEach(function (sp) { var u = sp.userData; sp.visible = endK > .01; sp.material.opacity = endK; sp.position.x = u.x0 * (port ? .5 : 1); sp.position.y = (port ? u.yp : u.y0) + Math.sin(time * .8 + u.ph) * 1.6 * amb; if (u.ban) sp.scale.set(port ? 46 : 70, port ? 7.2 : 11, 1); else sp.scale.setScalar(port ? 15 : 21); });
     camera.fov = lerp(port ? 52 : 38, port ? 74 : 62, ipc);
     /* at the start the train sits in the free part of the screen: right and low on desktop, low on phones */
     var vk = 1 - ipc; if (vk > .002) camera.setViewOffset(W, Hh, port ? 0 : -W * .1 * vk, -Hh * (port ? .3 : .2) * vk, W, Hh); else camera.clearViewOffset();

@@ -17,9 +17,9 @@ DESC = ("Sri Krishna Taak builds the first version, brings people together and m
         "ResumeFit, CaseUnion 4.0, field work from Cairo to Rajasthan. A train journey through the work.")
 N = len(CHAPTERS)
 
-LOGOFILES = {"niti": "niti.png", "harvard": "harvard.svg", "mu": "mu.png", "akshaya": "akshaya.png", "telangana": "telangana.svg", "aiesec": "aiesec.jpg", "icon": "icon.jpg"}
+LOGOFILES = {"niti": "niti.png", "harvard": "harvard.svg", "mu": "mu.png", "akshaya": "akshaya.png", "telangana": "telangana.svg", "aiesec": "aiesec.jpg", "icon": "icon.jpg", "jagriti": "jagriti.webp", "iift": "iift.png", "rotaract": "rotaract.png"}
 LOGONAMES = {"niti": "NITI Aayog", "harvard": "Harvard (HPAIR conference)", "mu": "Masters' Union", "akshaya": "The Akshaya Patra Foundation",
-             "telangana": "Government of Telangana", "aiesec": "AIESEC", "icon": "Icon Creations", "ted": "TEDx"}
+             "telangana": "Government of Telangana", "aiesec": "AIESEC", "icon": "Icon Creations", "ted": "TEDx", "jagriti": "Jagriti Yatra", "iift": "IIFT Delhi", "rotaract": "Rotaract"}
 LABELS = (("Result", "r"), ("Action", "a"), ("Context", "c"))
 
 
