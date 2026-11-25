@@ -490,29 +490,37 @@
     var b = t.closest('[data-go]'); if (b && !plainEl.contains(b)) { e.preventDefault(); var viaIdx = !!b.closest('#index'); closeIndex(); open(parseInt(b.getAttribute('data-go'), 10), viaIdx); }
   });
 
+  /* a tall card scrolls itself first; the train only moves from its top or bottom edge */
+  function cardRoom(t, dir) {
+    if (!t || !card.contains(t) || card.scrollHeight - card.clientHeight < 2) return false;
+    return dir > 0 ? card.scrollTop + card.clientHeight < card.scrollHeight - 1 : card.scrollTop > 0;
+  }
   /* input: wheel. A burst of wheel events (including trackpad momentum) is one gesture. */
   var lastWheelT = 0, lastMag = 0, gestureUsed = false;
   window.addEventListener('wheel', function (e) {
     if (e.ctrlKey || plainOn()) return;
     if (sheetOpen || (e.target.closest && e.target.closest('#index'))) return;
-    e.preventDefault();
     var now = performance.now(), dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY, dx = e.deltaX, mag = Math.abs(dy) >= Math.abs(dx) ? Math.abs(dy) : Math.abs(dx), dir = (Math.abs(dy) >= Math.abs(dx) ? dy : dx) > 0 ? 1 : -1;
     var gap = now - lastWheelT, quiet = gap > 160, surge = gap > 50 && mag > lastMag * 1.7 + 30;
     lastWheelT = now; lastMag = mag;
     if (quiet) gestureUsed = false;
+    /* scrolling the card uses up the gesture, so momentum at the end does not ride on */
+    if (cardRoom(e.target, dir)) { gestureUsed = true; lastMag = 1e9; return; }
+    e.preventDefault();
     if (mag < 4 || moving) return;
     if (gestureUsed && !surge) return;
     gestureUsed = true; go(cur + dir);
   }, { passive: false });
   /* input: touch swipe, one stop per swipe */
-  var tx0 = 0, ty0 = 0, tOk = false;
+  var tx0 = 0, ty0 = 0, tOk = false, tDown = false, tUp = false;
   window.addEventListener('touchstart', function (e) {
     var t = e.target; tOk = !(plainOn() || sheetOpen || e.touches.length > 1 || (t.closest && t.closest('#index, button, a, input')));
-    if (tOk) { tx0 = e.touches[0].clientX; ty0 = e.touches[0].clientY; }
+    if (tOk) { tx0 = e.touches[0].clientX; ty0 = e.touches[0].clientY; tDown = cardRoom(t, 1); tUp = cardRoom(t, -1); }
   }, { passive: true });
   window.addEventListener('touchend', function (e) {
     if (!tOk) return; tOk = false; var t = e.changedTouches[0], dx = t.clientX - tx0, dy = t.clientY - ty0;
     if (Math.max(Math.abs(dx), Math.abs(dy)) < 52) return;
+    if (Math.abs(dy) >= Math.abs(dx) && (dy < 0 ? tDown : tUp)) return;
     if (Math.abs(dy) >= Math.abs(dx)) go(cur + (dy < 0 ? 1 : -1)); else go(cur + (dx < 0 ? 1 : -1));
   }, { passive: true });
   /* input: keyboard */

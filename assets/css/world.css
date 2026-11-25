@@ -88,6 +88,9 @@ a{color:inherit}
 .h-photo img{width:100%;aspect-ratio:3/2;object-fit:cover;border:6px solid var(--cream);border-radius:20px;box-shadow:8px 10px 0 var(--saffron)}
 .h-photo figcaption{margin-top:10px;text-align:right;opacity:.95;text-shadow:0 1px 8px rgba(0,0,0,.8)}
 
+.chipcard em{display:block;font-style:normal;font-weight:800;font-size:clamp(1.35rem,2.4vw,2.1rem);letter-spacing:-.04em;line-height:1.05;margin-bottom:2px;white-space:nowrap}
+.h-act .h-mail{text-decoration:none;display:inline-flex;align-items:center;background:rgba(11,29,58,.75);color:var(--cream);border-color:var(--cream)}
+
 /* pager and hint */
 .pager{position:absolute;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(11,29,58,.78);border:2px solid rgba(246,239,224,.6);padding:6px 8px;border-radius:999px;backdrop-filter:blur(6px);max-width:calc(100% - 20px)}
 .pager>button{white-space:nowrap;font:inherit;font-weight:800;font-size:.9rem;color:var(--cream);background:transparent;border:2px solid var(--cream);border-radius:999px;min-height:44px;min-width:44px;padding:6px 14px;cursor:pointer}
@@ -264,3 +267,13 @@ html.no-js #gl,html.no-js .vig,html.no-js .cut,html.no-js .hud{display:none}
 @media (max-height:700px) and (max-width:760px){.cmeta .src{display:none}.cmeta{margin-top:4px}.cmeta .proof .chip{min-height:36px;padding:3px 10px}}
 
 @media (max-height:660px) and (max-width:760px){.card h2{font-size:1.02rem}.rac dd{font-size:.8rem;line-height:1.26}.rac>div:first-child dd{font-size:.86rem}.rac>div{padding:3px 0}.card{padding:8px 12px 10px}}
+
+/* recommendation quotes */
+.quote{margin:10px 0 6px;padding:8px 12px;border-left:4px solid var(--red);background:rgba(16,21,31,.06);border-radius:0 10px 10px 0}
+.quote blockquote{margin:0;font-size:.92rem;line-height:1.4;font-style:italic}
+.quote figcaption{margin-top:5px;font-size:.76rem;line-height:1.35}
+.quote a{color:inherit;text-decoration:underline}
+@media (max-width:760px){.quote{padding:6px 10px}.quote blockquote{font-size:.82rem}.quote figcaption{font-size:.7rem}}
+
+@media (max-width:860px){.chipcard em{display:inline;font-size:1.05rem;margin-right:8px}}
+@media (max-width:760px){.chipcard span{display:block}}

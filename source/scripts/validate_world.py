@@ -8,7 +8,7 @@ text = (D / "index.html").read_text(encoding="utf-8")
 fails = []
 if "—" in text or "–" in text:
     fails.append("em/en dash present")
-for bad in ["98.03", "7.89", "7.81", "2,12,267", "466", "60+ years", "10+ countries", "88.0%", "stamps", "Shake", "waitlist", "Plain version", "Text version", "bPlain", "Ride the train", "resume-founders", "resume-consulting", "visionary", "transforming industries", "driving impact", "Raymond", "120+ staff", "my startup", "currently building"]:
+for bad in ["98.03", "7.89", "7.81", "2,12,267", "466", "60+ years", "10+ countries", "88.0%", "stamps", "Shake", "waitlist", "Plain version", "Text version", "bPlain", "Ride the train", "resume-founders", "resume-consulting", "visionary", "transforming industries", "driving impact", "120+ staff", "my startup", "currently building"]:
     if bad in text:
         fails.append(f"retired or disputed string present: {bad!r}")
 hud = text.split('<p class="sr" id="live"')[0]

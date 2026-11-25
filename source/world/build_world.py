@@ -52,6 +52,10 @@ def item_body(it, fallback=False):
         t = it["thumb"]
         out.append(f'<figure class="thumb"><img src="{E(t["src"])}" alt="{E(t["alt"])}" width="132" height="92" decoding="async"{"" if not fallback else " loading=lazy"}><figcaption>{E(t["cap"])}</figcaption></figure>')
     tail = ""
+    if it.get("quote"):
+        q = it["quote"]
+        tail += (f'<figure class="quote"><blockquote>&ldquo;{E(q["text"])}&rdquo;</blockquote>'
+                 f'<figcaption><b>{E(q["name"])}</b> {E(q["role"])} <a href="{E(q["url"])}" target="_blank" rel="noopener">LinkedIn recommendation<span class="sr"> (opens in a new tab)</span></a></figcaption></figure>')
     if it.get("proof"):
         tail += '<ul class="proof">' + "".join(link(l, h) for l, h in it["proof"]) + "</ul>"
     if it.get("src"):
@@ -112,13 +116,13 @@ def case_html(cid, prefix):
 
 
 def hero_html():
-    ents = "".join(f'<li><button type="button" class="chipcard" data-go="{e["go"]}"><b>{E(e["k"])}</b><span>{E(e["v"])}</span></button></li>' for e in HERO["entries"])
+    ents = "".join(f'<li><button type="button" class="chipcard" data-go="{e["go"]}"><em>{E(e["n"])}</em><b>{E(e["k"])}</b><span>{E(e["v"])}</span></button></li>' for e in HERO["entries"])
     return f"""<div class="h-in">
       <p class="mono h-k">{E(HERO['kicker'])}</p>
       <h1 class="h-h1">{E(HERO['h1'])}</h1>
       <p class="h-sub">{E(HERO['sub'])}</p>
       <ul class="chips" aria-label="Start with one kind of work">{ents}</ul>
-      <p class="h-act"><button class="btn big" type="button" data-go="{HERO['start']['go']}" id="bExplore">{E(HERO['start']['label'])}</button></p>
+      <p class="h-act"><button class="btn big" type="button" data-go="{HERO['start']['go']}" id="bExplore">{E(HERO['start']['label'])}</button><a class="btn big h-mail" href="mailto:{E(LINKS['email'])}">Email me</a></p>
     </div>
     <figure class="h-photo"><img src="{E(HERO['photo']['src'])}" alt="{E(HERO['photo']['alt'])}" width="480" height="320"><figcaption class="mono">{E(HERO['photo']['cap'])}</figcaption></figure>"""
 
