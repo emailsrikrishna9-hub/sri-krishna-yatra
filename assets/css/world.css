@@ -260,3 +260,7 @@ html.no-js #gl,html.no-js .vig,html.no-js .cut,html.no-js .hud{display:none}
   .item .ih{min-height:40px;padding:3px 10px}.items{gap:4px}.item .ib{padding-top:4px}
   .logos{margin-bottom:4px}.src{font-size:.7rem}.cmeta{margin-top:4px}.cact .btn{min-height:40px}.chead{margin-bottom:2px}
 }
+
+@media (max-height:700px) and (max-width:760px){.cmeta .src{display:none}.cmeta{margin-top:4px}.cmeta .proof .chip{min-height:36px;padding:3px 10px}}
+
+@media (max-height:660px) and (max-width:760px){.card h2{font-size:1.02rem}.rac dd{font-size:.8rem;line-height:1.26}.rac>div:first-child dd{font-size:.86rem}.rac>div{padding:3px 0}.card{padding:8px 12px 10px}}
