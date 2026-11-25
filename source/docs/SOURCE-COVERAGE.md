@@ -22,3 +22,15 @@ What was actually opened, how, and what could not be reached. "Read" means the c
 
 ## Not done
 Real-phone, Safari and Firefox testing. Screen-reader testing with a real screen reader (structure and live-region checks only).
+
+## Added 25 Nov 2026 (Founder's Office edition)
+| Source | How accessed | Result |
+|---|---|---|
+| Local folder `A_SRI_KRISHNA_MASTER_DOC/Proofs` | Read on this computer | Read: Icon Creations letter and two certificates, AIESEC letters (two), Akshaya Patra certificate, SRISTI certificates, HPAIR Impact Challenge letter. Not opened: the NITI, Collector's Office and other scans; personal documents (ID, bank, tax) were not opened |
+| CaseUnion creatives in Downloads | Read on this computer | Read: "24 Hours Left" and the Unstop cover. Others not used (a TV banner mockup is a mockup) |
+| CaseUnion daily registration tracker (xlsx) | Read on this computer | Last row is 16 Nov (2,900). Not used for the headline number |
+| CaseUnion brief (18 Nov) | Read | 3,066 on 18 Nov; partner statuses (Thinking Spree countersigned; Harvard Business Publishing in principle) |
+| Unstop event page | In-app browser, 25 Nov 2026 | Read: 4,745 registrations, prize pool up to ₹5 lakhs, registrations closed 23 Nov |
+| TEDxIIS team photo | Read on this computer | Used |
+| LinkedIn recommendations | Not accessible | Raymond Ayac and Chetan Patel not quoted |
+| Google Drive connector | Connected to a different person's Drive | Not used for your files |

@@ -12,22 +12,19 @@
   var LOW = window.innerWidth < 760 || (window.matchMedia && window.matchMedia('(pointer:coarse)').matches), DEN = LOW ? .55 : 1;
   var prCap = LOW ? 1.25 : 1.75, qLevel = 0, frameN = 0, fsum = 0;
 
-  /* ---------- text / 3D switch ---------- */
+  /* ---------- 3D, or the stacked fallback when WebGL is unavailable ---------- */
   try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
   var renderer = null, running = false, started = false, plainEl = $('plain');
-  function setPlain(on, init) {
-    root.classList.toggle('plain-on', on); plainEl.hidden = !on; if (!init) { try { window.sessionStorage.setItem('yatra-plain-v2', on ? '1' : '0'); } catch (e) {} }
-    if (on) { running = false; if (!init) { window.scrollTo(0, 0); plainEl.focus({ preventScroll: true }); } }
+  function setPlain(on) {
+    root.classList.toggle('plain-on', on); plainEl.hidden = !on;
+    if (on) { running = false; }
     else if (renderer) { running = true; if (!started) start(); window.requestAnimationFrame(frame); }
   }
-  $('bRide').addEventListener('click', function () { setPlain(false); });
-  $('bPlain').addEventListener('click', function () { setPlain(true); });
   try {
     if (window.THREE) renderer = new THREE.WebGLRenderer({ canvas: $('gl'), antialias: window.devicePixelRatio < 2 && !LOW, powerPreference: 'high-performance' });
   } catch (e) { renderer = null; }
-  if (!renderer) { root.classList.add('plain-on'); $('bRide').hidden = true; $('skipText').hidden = true; return; }
-  var savedPlain = null; try { savedPlain = window.sessionStorage.getItem('yatra-plain-v2'); } catch (e) {}
-  var initialPlain = savedPlain === '1' || /[#&]text/.test(location.hash);
+  if (!renderer) { root.classList.add('plain-on'); return; }
+  var initialPlain = false;
   $('hud').hidden = false;
 
   /* ---------- constants ---------- */
@@ -40,17 +37,21 @@
 
   /* ---------- biome table: one entry per chapter, interpolated along the track ---------- */
   function H(x) { return new THREE.Color(x); }
-  var B = [
+  var B_all = [
     /* 0 telangana dawn   */ { top: 0x24356b, hor: 0xffb06a, g1: 0x6f9a45, g2: 0x9db856, sunY: .10, sunC: 0xffc27a, sunI: .9, hemi: .55, star: .5, amp: 4, fogN: 60, fogF: 420, tree: .7, build: 0, hut: .4, mount: 0, cactus: 0, leaf: 0x3f7a35, glow: 1 },
-    /* 4 ahmedabad bright */ { top: 0x3a8fe0, hor: 0xe3f1ff, g1: 0xb3aa5c, g2: 0xd2c47a, sunY: .8, sunC: 0xffffff, sunI: 1.2, hemi: .85, star: 0, amp: 3, fogN: 90, fogF: 560, tree: .3, build: .6, hut: .3, mount: 0, cactus: .1, leaf: 0x6f9a3a, glow: 0 },
+    /* 1 cairo dusk       */ { top: 0x3a2a5a, hor: 0xff8a5b, g1: 0xc9a15f, g2: 0xe2bd7a, sunY: .06, sunC: 0xff9a5a, sunI: .8, hemi: .5, star: .55, amp: 7, fogN: 60, fogF: 380, tree: .06, build: .12, hut: .1, mount: 0, cactus: .3, leaf: 0x6e8a3a, glow: 1 },
     /* 2 narayanpet day   */ { top: 0x3f86d6, hor: 0xcfe8ff, g1: 0x86ad45, g2: 0xb2c25e, sunY: .75, sunC: 0xfff3d0, sunI: 1.15, hemi: .8, star: 0, amp: 4, fogN: 80, fogF: 520, tree: .6, build: .05, hut: .6, mount: 0, cactus: 0, leaf: 0x3f8a3a, glow: 0 },
-    /* 10 gurugram dusk   */ { top: 0x121c42, hor: 0xe0795a, g1: 0x587a5a, g2: 0x7a9a68, sunY: .04, sunC: 0xff8a5a, sunI: .7, hemi: .5, star: .7, amp: 4, fogN: 60, fogF: 400, tree: .4, build: 1, hut: 0, mount: 0, cactus: 0, leaf: 0x3f7a4a, glow: 1 },
     /* 3 jagriti golden   */ { top: 0x3b66b0, hor: 0xffd7a0, g1: 0x9bb355, g2: 0xc9b860, sunY: .28, sunC: 0xffd08a, sunI: 1.05, hemi: .7, star: 0, amp: 5, fogN: 70, fogF: 460, tree: .45, build: .08, hut: .5, mount: 0, cactus: .05, leaf: 0x5a8a3a, glow: .4 },
-    /* 7 delhi haze       */ { top: 0x6b86a8, hor: 0xd9d2c4, g1: 0x8a9a7a, g2: 0xa6b08a, sunY: .55, sunC: 0xfff0d8, sunI: .95, hemi: .75, star: 0, amp: 3, fogN: 50, fogF: 330, tree: .4, build: .85, hut: .1, mount: 0, cactus: 0, leaf: 0x4f7a3a, glow: .3 },
+    /* 4 ahmedabad bright */ { top: 0x3a8fe0, hor: 0xe3f1ff, g1: 0xb3aa5c, g2: 0xd2c47a, sunY: .8, sunC: 0xffffff, sunI: 1.2, hemi: .85, star: 0, amp: 3, fogN: 90, fogF: 560, tree: .3, build: .6, hut: .3, mount: 0, cactus: .1, leaf: 0x6f9a3a, glow: 0 },
+    /* 5 nagaland mist    */ { top: 0x4a6a86, hor: 0xcfe0dc, g1: 0x3f7a55, g2: 0x5f9a68, sunY: .5, sunC: 0xeaf3e8, sunI: .85, hemi: .75, star: 0, amp: 22, fogN: 40, fogF: 230, tree: 1, build: 0, hut: .25, mount: 1, cactus: 0, leaf: 0x2a6a40, glow: .2 },
     /* 6 nagaur desert    */ { top: 0x3a86d6, hor: 0xffe4b4, g1: 0xd9a35c, g2: 0xeac27c, sunY: .85, sunC: 0xfff0c8, sunI: 1.3, hemi: .85, star: 0, amp: 9, fogN: 80, fogF: 520, tree: .04, build: 0, hut: .15, mount: .1, cactus: .5, leaf: 0x7a8a3a, glow: 0 },
+    /* 7 delhi haze       */ { top: 0x6b86a8, hor: 0xd9d2c4, g1: 0x8a9a7a, g2: 0xa6b08a, sunY: .55, sunC: 0xfff0d8, sunI: .95, hemi: .75, star: 0, amp: 3, fogN: 50, fogF: 330, tree: .4, build: .85, hut: .1, mount: 0, cactus: 0, leaf: 0x4f7a3a, glow: .3 },
+    /* 8 gandhinagar eve  */ { top: 0x2d3a7a, hor: 0xff9f6b, g1: 0x7aa05a, g2: 0xa2b66a, sunY: .12, sunC: 0xff9a60, sunI: .85, hemi: .55, star: .35, amp: 5, fogN: 60, fogF: 420, tree: .5, build: .3, hut: .2, mount: 0, cactus: .05, leaf: 0x4f8a3a, glow: .9 },
     /* 9 boston autumn    */ { top: 0x0b1230, hor: 0x35457a, g1: 0x8a4a2a, g2: 0xb5651d, sunY: -.2, sunC: 0x8fa6ff, sunI: .4, hemi: .45, star: 1, amp: 8, fogN: 50, fogF: 330, tree: .95, build: .15, hut: 0, mount: 0, cactus: 0, leaf: 0xd5681d, glow: 1 },
+    /* 10 gurugram dusk   */ { top: 0x121c42, hor: 0xe0795a, g1: 0x587a5a, g2: 0x7a9a68, sunY: .04, sunC: 0xff8a5a, sunI: .7, hemi: .5, star: .7, amp: 4, fogN: 60, fogF: 400, tree: .4, build: 1, hut: 0, mount: 0, cactus: 0, leaf: 0x3f7a4a, glow: 1 },
     /* 11 you, sunrise    */ { top: 0x1b2a5c, hor: 0xffb36b, g1: 0x6f9a52, g2: 0x9cbc62, sunY: .14, sunC: 0xffc88a, sunI: 1, hemi: .6, star: .3, amp: 4, fogN: 70, fogF: 480, tree: .6, build: .1, hut: .3, mount: 0, cactus: 0, leaf: 0x4f9a3a, glow: .7 }
   ];
+  var B = D.chapters.map(function (c) { return B_all[c.biome]; });
   while (B.length < N) B.push(B[B.length - 1]);
   var NUM = ['sunY', 'sunI', 'hemi', 'star', 'amp', 'fogN', 'fogF', 'tree', 'build', 'hut', 'mount', 'cactus', 'glow'], COL = ['top', 'hor', 'g1', 'g2', 'sunC', 'leaf'];
   var tmpA = new THREE.Color(), tmpB = new THREE.Color();
@@ -463,6 +464,7 @@
   bNext.addEventListener('click', function () { go(cur + 1); });
   document.addEventListener('click', function (e) {
     var t = e.target; if (!t.closest) return;
+    var ih = t.closest('.ih'); if (ih) { var box = ih.closest('.items'), all = box.querySelectorAll('.item'); for (var q2 = 0; q2 < all.length; q2++) { var on = all[q2] === ih.parentNode; all[q2].classList.toggle('open', on); all[q2].querySelector('.ih').setAttribute('aria-expanded', on ? 'true' : 'false'); } return; }
     var c = t.closest('[data-case]'); if (c) { e.preventDefault(); openCase(c.getAttribute('data-case'), c); return; }
     var b = t.closest('[data-go]'); if (b && !plainEl.contains(b)) { e.preventDefault(); var viaIdx = !!b.closest('#index'); closeIndex(); open(parseInt(b.getAttribute('data-go'), 10), viaIdx); }
   });
@@ -508,7 +510,7 @@
     if (next) { e.preventDefault(); go(cur + 1); } else if (prev) { e.preventDefault(); go(cur - 1); }
     else if (k === 'Home') { e.preventDefault(); open(0, true); } else if (k === 'End') { e.preventDefault(); open(N - 1, true); }
   });
-  window.addEventListener('hashchange', function () { var h = location.hash.replace('#', ''); if (h === 'text') { setPlain(true); return; } for (var i = 0; i < N; i++) if (D.chapters[i].id === h && i !== cur) { open(i, true); return; } });
+  window.addEventListener('hashchange', function () { var h = location.hash.replace('#', ''); for (var i = 0; i < N; i++) if (D.chapters[i].id === h && i !== cur) { open(i, true); return; } });
 
   /* ---------- sound (synthesised, off by default) ---------- */
   var ac = null, soundOn = false, master = null;
@@ -580,6 +582,6 @@
   window.scrollTo(0, 0);
   /* start where the URL says (deep links), else at the platform */
   (function () { var h = location.hash.replace('#', ''); for (var i = 1; i < N; i++) if (D.chapters[i].id === h) { cur = pos = to = i; prevZ = Z0 - i * SP; } })();
-  setPlain(initialPlain, true);
-  if (!initialPlain) showStop(cur, false);
+  setPlain(false);
+  showStop(cur, false);
 })();

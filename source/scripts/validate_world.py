@@ -8,9 +8,14 @@ text = (D / "index.html").read_text(encoding="utf-8")
 fails = []
 if "—" in text or "–" in text:
     fails.append("em/en dash present")
-for bad in ["98.03", "7.89", "7.81", "2,12,267", "466", "60+ years", "10+ countries", "88.0%", "stamps", "Shake", "waitlist", "49 "]:
+for bad in ["98.03", "7.89", "7.81", "2,12,267", "466", "60+ years", "10+ countries", "88.0%", "stamps", "Shake", "waitlist", "Plain version", "Text version", "bPlain", "Ride the train", "resume-founders", "resume-consulting", "visionary", "transforming industries", "driving impact", "Raymond", "120+ staff", "my startup", "currently building"]:
     if bad in text:
         fails.append(f"retired or disputed string present: {bad!r}")
+hud = text.split('<p class="sr" id="live"')[0]
+if len(re.findall(r'href="resume\.pdf"', hud)) != 1:
+    fails.append("expected exactly one resume link in the journey UI")
+if 'target="_blank"' not in re.search(r'<a[^>]*id="bResume"[^>]*>', text).group(0):
+    fails.append("resume link must open in a new tab")
 ids = re.findall(r'\sid="([^"]+)"', text)
 dup = {i for i in ids if ids.count(i) > 1}
 if dup:
