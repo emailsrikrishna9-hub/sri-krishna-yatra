@@ -420,8 +420,9 @@
       }
       if (k !== 'ted') logoImg(k, draw); draw();
       var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, fog: false })), ang = (i / (nK - 1) - .5) * 2.6, row = i % 3;
-      sp.position.set((i / (nK - 1) - .5) * 215, 104 + row * 22, zf - 125); sp.scale.set(20, 20, 1); sp.userData = { y0: sp.position.y, ph: i * .9, x0: sp.position.x, yp: 94 + (i % 4) * 15, i: i }; sp.visible = false; scene.add(sp); skyLogos.push(sp);
+      sp.position.set((i / (nK - 1) - .5) * 215, 104 + row * 22, zf - 125); sp.scale.set(20, 20, 1); sp.userData = { y0: sp.position.y, ph: i * .9, x0: sp.position.x, yp: 94 + (i % 4) * 15, i: i, minor: ['iift', 'rotaract', 'nitw', 'iitgn', 'svnit', 'tie'].indexOf(k) >= 0 }; sp.visible = false; scene.add(sp); skyLogos.push(sp);
     });
+
     var bc = document.createElement('canvas'); bc.width = 1024; bc.height = 160; var bg2 = bc.getContext('2d'); bg2.fillStyle = '#ffc83d'; bg2.font = '800 60px "Inter Tight", Arial, sans-serif'; bg2.textAlign = 'center'; bg2.fillText('ORGANISATIONS ALONG THE WAY', 512, 108);
     var bs = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(bc), transparent: true, opacity: 0, depthWrite: false, fog: false })); bs.position.set(0, 176, zf - 140); bs.scale.set(70, 11, 1); bs.visible = false; bs.userData = { y0: 176, ph: 0, x0: 0, yp: 162, ban: true }; scene.add(bs); skyLogos.push(bs);
   })();
@@ -567,7 +568,7 @@
     camera.position.set(lerp(cx0, 0, ipc), lerp(cy0, hgt, ipc), lerp(cz0, z + back, ipc));
     var endK = smooth(N - 2.4, N - 1, pos);
     tgt.set(lerp(0, 0, ipc), lerp(2.6, 3.2, ipc) + endK * 38, lerp(z + 15, z - 22, ipc) - endK * 22); camera.lookAt(tgt);
-    skyLogos.forEach(function (sp) { var u = sp.userData; sp.visible = endK > .01; sp.material.opacity = endK; sp.position.x = u.x0 * (port ? .5 : 1); sp.position.y = (port ? u.yp : u.y0) + Math.sin(time * .8 + u.ph) * 1.6 * amb; if (u.ban) sp.scale.set(port ? 46 : 70, port ? 7.2 : 11, 1); else sp.scale.setScalar(port ? 14 : 20); });
+    skyLogos.forEach(function (sp) { var u = sp.userData; sp.visible = endK > .01; sp.material.opacity = endK; sp.position.x = u.x0 * (port ? .5 : 1); sp.position.y = (port ? u.yp : u.y0) + Math.sin(time * .8 + u.ph) * 1.6 * amb; if (u.ban) sp.scale.set(port ? 46 : 70, port ? 7.2 : 11, 1); else sp.scale.setScalar((port ? 14 : 20) * (u.minor ? .72 : 1)); });
     camera.fov = lerp(port ? 52 : 38, port ? 74 : 62, ipc);
     /* at the start the train sits in the free part of the screen: right and low on desktop, low on phones */
     var vk = 1 - ipc; if (vk > .002) camera.setViewOffset(W, Hh, port ? 0 : -W * .1 * vk, -Hh * (port ? .3 : .2) * vk, W, Hh); else camera.clearViewOffset();

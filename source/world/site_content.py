@@ -117,7 +117,7 @@ CHAPTERS = [
                   r="Built and launched an AI-assisted résumé-tailoring web app.",
                   a="Developed document parsing, job matching, five templates, an application tracker, and a guardrail against invented experience.",
                   c="A personal product build to make role-specific applications easier. I have since left the project.",
-                  proof=[("Live product", "https://resumefit-xrme.onrender.com/"), ("Product Hunt listing", "https://www.producthunt.com/products/resumefit-3")],
+                  proof=[("Live product (first load may take up to a minute)", "https://resumefit-xrme.onrender.com/"), ("Product Hunt listing", "https://www.producthunt.com/products/resumefit-3")],
                   thumb=dict(src="assets/work/rf-live-landing.jpg", alt="The ResumeFit home page with the headline 'A tailored resume for every job. Every line true.'",
                              cap="ResumeFit home page, captured 24 Nov 2026")),
          ]),
@@ -199,6 +199,6 @@ CASES = {
                 ("14 Nov", "I paused payments and made the product free during the beta."),
             ], p=["I made it free because the paid pass was not converting. The dates come from the commit history. The Product Hunt listing shows that it shipped; I have no paying users or traction numbers to report."]),
         ],
-        proof=[("Open ResumeFit", "https://resumefit-xrme.onrender.com/"), ("Product Hunt listing", "https://www.producthunt.com/products/resumefit-3")],
+        proof=[("Open ResumeFit (first load may take up to a minute)", "https://resumefit-xrme.onrender.com/"), ("Product Hunt listing", "https://www.producthunt.com/products/resumefit-3")],
     ),
 }
