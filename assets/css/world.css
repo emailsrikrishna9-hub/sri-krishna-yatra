@@ -251,3 +251,12 @@ html.no-js #gl,html.no-js .vig,html.no-js .cut,html.no-js .hud{display:none}
 .item .ih{padding:5px 10px;min-height:44px}
 .items{gap:5px}
 .lede{font-weight:800;font-size:1.05rem}.card .item>p{margin:0 0 8px;line-height:1.4}
+
+@media (max-height:700px) and (min-width:761px){
+  .item.open:not(.items .item),.item.open .ib{display:block}
+  .card{padding:10px 18px 12px;bottom:88px;max-height:calc(100svh - 150px)}
+  .card h2{font-size:1.2rem;margin-bottom:4px}
+  .rac>div{padding:3px 0}.rac dd{font-size:.86rem;line-height:1.28}.rac>div:first-child dd{font-size:.92rem}
+  .item .ih{min-height:40px;padding:3px 10px}.items{gap:4px}.item .ib{padding-top:4px}
+  .logos{margin-bottom:4px}.src{font-size:.7rem}.cmeta{margin-top:4px}.cact .btn{min-height:40px}.chead{margin-bottom:2px}
+}

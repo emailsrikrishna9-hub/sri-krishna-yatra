@@ -503,6 +503,7 @@
       return;
     }
     if (plainOn()) return;
+    if (e.repeat) { if (/^(Arrow|Page|Home|End| )/.test(e.key)) e.preventDefault(); return; }
     var tag = (e.target.tagName || '').toLowerCase(), onCtl = tag === 'button' || tag === 'a' || tag === 'input' || tag === 'summary';
     var k = e.key, next = k === 'ArrowDown' || k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey && !onCtl), prev = k === 'ArrowUp' || k === 'ArrowLeft' || k === 'PageUp' || (k === ' ' && e.shiftKey && !onCtl);
     if (onCtl && (k === 'ArrowDown' || k === 'ArrowUp') && e.target.closest && e.target.closest('#index')) { var bs = Array.prototype.slice.call(idxEl.querySelectorAll('button')), ix = bs.indexOf(e.target); var nx = bs[clamp(ix + (k === 'ArrowDown' ? 1 : -1), 0, bs.length - 1)]; if (nx) { e.preventDefault(); nx.focus(); } return; }
