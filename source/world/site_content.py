@@ -16,16 +16,52 @@ LINKS = dict(
 HERO = dict(
     kicker="Sri Krishna Taak · Masters' Union, Gurugram",
     h1="I build the first version, bring people together, and move the work forward.",
-    sub="Looking for a Founder's Office internship, March to May 2027. Hand me an unclear problem.",
+    sub="Looking for a Founder's Office internship, March to May 2027. Hand me an unclear problem. I have travelled all 28 states of India.",
     entries=[
         dict(go=2, n="₹12,000 Cr", k="Government scale", v="Worked on the district rollout of the Gruha Lakshmi welfare scheme"),
         dict(go=7, n="₹4L + ₹3L", k="Sponsorship I secured", v="Cash and in kind, for CaseUnion 4.0"),
         dict(go=6, n="1st Prize", k="Built products", v="Saathi prototype, Tetr LaunchLab. Also built and launched ResumeFit"),
     ],
     start=dict(go=1, label="Start in Cairo"),
+    all=dict(go=8, label="See all my work"),
     photo=dict(src="assets/img/jagriti-fireside-sri-listening.jpg",
                alt="Sri Krishna Taak seated on stage during a fireside chat at Masters' Union",
                cap="Moderating a fireside chat at Masters' Union"),
+)
+
+# The board of all work at the last stop: (logo or "", name, what I did, year, stop it links to).
+ALLWORK = dict(
+    title="The work, at a glance",
+    note="Travelled all 28 states of India",
+    also=("rotaract", "tie"),
+    groups=[
+        ("Built", [
+            ("", "ResumeFit", "Built and launched a r\u00e9sum\u00e9 tool", "2026", 5),
+            ("", "Saathi", "1st Prize, Tetr LaunchLab (prototype)", "2026", 6),
+            ("", "Soft Launch", "Co-built commerce operation, \u20b91 lakh+ team revenue", "Venture", 4),
+        ]),
+        ("Led and organised", [
+            ("mu", "CaseUnion 4.0", "Secured \u20b94L sponsorship + \u20b93L in kind", "2026", 7),
+            ("mu", "Careers Club", "13 career clubs report to me", "2026", 7),
+            ("ted", "TEDxIIS", "First TEDx at the institute, 250+ attendees", "2023", 2),
+            ("iitgn", "Prompt2Profit", "Co-hosted hackathons at IIT Gandhinagar, NIT Warangal, SVNIT", "2026", 4),
+            ("aiesec", "AIESEC", "10+ exchange approvals, Best Team Leader", "2023 to 24", 2),
+            ("iis", "Kashmir Festival", "Led 30 students", "Gandhinagar", 2),
+        ]),
+        ("Government, field and research", [
+            ("telangana", "Collector's Office", "Rollout of a \u20b912,000 crore welfare scheme", "2023", 2),
+            ("sristi", "Shodh Yatra", "140 km field journey through 12 villages", "2024", 3),
+            ("iima", "ICCG 5, IIM Ahmedabad", "Presented Shodh Yatra learnings", "2025", 3),
+            ("akshaya", "Akshaya Patra", "Verified 700+ assets worth \u20b920+ crore", "2024", 3),
+            ("niti", "NITI Aayog", "Policy research on pulse-market volatility", "2024", 3),
+        ]),
+        ("Global and recognition", [
+            ("icon", "Icon Creations, Cairo", "Top-performing intern", "2023", 1),
+            ("harvard", "HPAIR, Harvard", "Won Round 1 of the Impact Challenge", "2025", 4),
+            ("jagriti", "Podcast with Shashank Mani", "Host and fireside moderator", "Masters' Union", 4),
+            ("iift", "The Policy Gazette, IIFT Delhi", "3rd place", "2026", 4),
+        ]),
+    ],
 )
 
 # kind: single (one item) or group (accordion of items). The chronological journey starts at Icon Creations.

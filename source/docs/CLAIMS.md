@@ -34,3 +34,5 @@ Not used from the 25 Nov upload: a Government of Rajasthan circular inviting "in
 Recommendation quotes (read 25 Nov 2026 from the signed-in LinkedIn recommendations page, visible to all LinkedIn members): Raymond Ayac (14 Jun 2026) on the Icon Creations card; Chetan V Patel (28 Feb 2026) on the Shodh Yatra item. Verbatim excerpts. Note: Ayac writes "several months"; the card says six-week placement. Published 25 Nov 2026.
 
 Approved 25 Nov 2026: Gruha Lakshmi (Collector certificate); TEDx licensee and Kashmir Festival (institute letters); Prompt2Profit three campuses (LinkedIn posts); CaseUnion college reach (own post); Policy Gazette, followers (LinkedIn); goSTOPS (LinkedIn About, no certificate); Careers Club "13 clubs report to me", 8X hackathon and London base (user statements, not independently verified).
+
+Published 25 Nov 2026: "Travelled all 28 states of India" (user statement). Work board at the last stop repeats figures already on the cards.

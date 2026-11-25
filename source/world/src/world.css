@@ -277,3 +277,41 @@ html.no-js #gl,html.no-js .vig,html.no-js .cut,html.no-js .hud{display:none}
 
 @media (max-width:860px){.chipcard em{display:inline;font-size:1.05rem;margin-right:8px}}
 @media (max-width:760px){.chipcard span{display:block}}
+
+/* the board of all work, up in the sky at the last stop */
+.card.wide,.card.wide.right{left:50%;right:auto;width:min(1180px,calc(100% - 32px));top:76px;bottom:88px;max-height:none;transform:translate(-50%,14px);box-shadow:0 10px 0 var(--teal)}
+.card.wide.show{transform:translate(-50%,0)}
+.card.wide .lede{margin:0 0 8px}
+.wtitle{margin:14px 0 2px;padding-top:10px;border-top:2px solid var(--ink);font-size:1.15rem;letter-spacing:-.02em}
+.wnote{margin:0 0 10px;font-weight:800;color:var(--red)}
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:start}
+.wg h3{margin:0 0 6px;color:var(--red);font-size:.66rem}
+.wg ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.wt{width:100%;display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px;align-items:start;text-align:left;font:inherit;color:inherit;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:7px 8px;min-height:44px;cursor:pointer}
+.wt:hover{background:var(--gold)}
+.wt .lg{width:44px;height:36px;min-width:0;padding:2px;border-width:0;justify-content:center}
+.wt .lg img{max-width:100%}
+.wt .lg.tx{font-size:.8rem;border-radius:8px}
+.wt span[aria-hidden]{background:var(--navy);color:var(--gold);font-size:1.1rem}
+.wt b{display:block;font-size:.84rem;line-height:1.15}
+.wt .wd{display:block;font-size:.76rem;line-height:1.25;margin-top:1px}
+.wt small{display:block;font-size:.56rem;opacity:.65;margin-top:2px}
+.walso{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+@media (max-width:1000px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.card.wide,.card.wide.right{left:10px;right:auto;width:calc(100% - 20px);top:66px;bottom:calc(80px + env(safe-area-inset-bottom));max-height:none;transform:translateY(14px)}.card.wide.show{transform:none}}
+@media (max-width:520px){.board{grid-template-columns:1fr}}
+/* keep the board on one screen on a laptop */
+.card.wide{top:70px;bottom:80px;padding:12px 18px}
+.card.wide .stamp,.card.wide .wt small{display:none}
+.card.wide h2{font-size:1.35rem;margin:2px 0 4px}
+.card.wide .lede{font-size:.92rem;margin:0 0 6px}
+.card.wide .chip{min-height:32px;padding:2px 12px}
+.card.wide .wtitle{display:inline-block;width:auto;margin:8px 14px 6px 0;padding:0;border:0;font-size:1rem}
+.card.wide .wnote{display:inline-block;margin:0;font-size:.95rem}
+.card.wide .board{border-top:2px solid var(--ink);padding-top:8px;gap:10px}
+.card.wide .wg ul{gap:4px}
+.card.wide .wt{padding:4px 7px;border-width:1.5px;border-radius:10px;grid-template-columns:36px minmax(0,1fr);gap:7px}
+.card.wide .wt .lg{width:36px;height:30px}
+.card.wide .wt b{font-size:.8rem}.card.wide .wt .wd{font-size:.72rem;line-height:1.2}
+.card.wide .walso{margin-top:6px}.card.wide .walso .lg{height:28px}
+@media (max-width:760px){.card.wide{top:62px;bottom:calc(78px + env(safe-area-inset-bottom));padding:10px 12px}}

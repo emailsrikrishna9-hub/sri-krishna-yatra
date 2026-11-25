@@ -6,7 +6,7 @@ import html, json, shutil, sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from site_content import LINKS, HERO, CHAPTERS, CASES  # noqa: E402
+from site_content import LINKS, HERO, CHAPTERS, CASES, ALLWORK  # noqa: E402
 
 E = html.escape
 ROOT = Path(__file__).resolve().parent.parent
@@ -27,6 +27,21 @@ def logo_tile(k):
     if k == "ted":
         return '<span class="lg tx" role="img" aria-label="TEDx">TED<i>x</i></span>'
     return f'<span class="lg"><img src="assets/logos/{E(LOGOFILES[k])}" alt="{E(LOGONAMES[k])}" height="30"></span>'
+
+
+def board_html():
+    """Every piece of work with its organisation and one line on what was done; each tile jumps to its stop."""
+    groups = []
+    for title, rows in ALLWORK["groups"]:
+        tiles = []
+        for logo, name, did, when, go in rows:
+            mark = logo_tile(logo) if logo else f'<span class="lg tx" aria-hidden="true">{E(name[0])}</span>'
+            tiles.append(f'<li><button type="button" class="wt" data-go="{go}">{mark}<span><b>{E(name)}</b>'
+                         f'<span class="wd">{E(did)}</span><small class="mono">{E(when)}</small></span></button></li>')
+        groups.append(f'<section class="wg"><h3 class="mono">{E(title)}</h3><ul>{"".join(tiles)}</ul></section>')
+    also = "".join(logo_tile(k) for k in ALLWORK["also"])
+    return (f'<p class="wnote">{E(ALLWORK["note"])}</p><div class="board">{"".join(groups)}</div>'
+            f'<div class="walso"><span class="mono">Also along the way</span>{also}</div>')
 
 
 def link(label, href, new=True):
@@ -76,7 +91,8 @@ def card_html(ch):
         it = items[0]
         links = (f'<li><a class="chip big" href="mailto:{E(LINKS["email"])}">Email me</a></li>' + link("LinkedIn", LINKS["linkedin"]) +
                  link("GitHub", LINKS["github"]) + link("Product Hunt", LINKS["ph_profile"]))
-        return head + f'<div class="item open"><p class="lede">{E(it["r"])}</p><p>{E(it["a"])}</p><p>{E(it["c"])}</p></div><ul class="proof">{links}</ul>'
+        return (head + f'<div class="item open"><p class="lede">{E(it["r"])} {E(it["a"])}</p></div><ul class="proof">{links}</ul>'
+                f'<h3 class="wtitle">{E(ALLWORK["title"])}</h3>' + board_html())
     if len(items) == 1:
         it = items[0]
         logos = "".join(logo_tile(k) for k in it.get("logos", []))
@@ -122,7 +138,7 @@ def hero_html():
       <h1 class="h-h1">{E(HERO['h1'])}</h1>
       <p class="h-sub">{E(HERO['sub'])}</p>
       <ul class="chips" aria-label="Start with one kind of work">{ents}</ul>
-      <p class="h-act"><button class="btn big" type="button" data-go="{HERO['start']['go']}" id="bExplore">{E(HERO['start']['label'])}</button><a class="btn big h-mail" href="mailto:{E(LINKS['email'])}">Email me</a></p>
+      <p class="h-act"><button class="btn big" type="button" data-go="{HERO['start']['go']}" id="bExplore">{E(HERO['start']['label'])}</button><button class="btn big h-mail" type="button" data-go="{HERO['all']['go']}">{E(HERO['all']['label'])}</button><a class="btn big h-mail" href="mailto:{E(LINKS['email'])}">Email me</a></p>
     </div>
     <figure class="h-photo"><img src="{E(HERO['photo']['src'])}" alt="{E(HERO['photo']['alt'])}" width="480" height="320"><figcaption class="mono">{E(HERO['photo']['cap'])}</figcaption></figure>"""
 
@@ -137,6 +153,7 @@ def fallback_html():
             if it.get("more"):
                 art.append(f'<details class="pcase" open><summary>Detail: {E(CASES[it["more"]]["title"])}</summary>{case_html(it["more"], "plain-case-")}</details>')
         if ch.get("contact"):
+            art.append(f'<p>{E(ALLWORK["note"])}.</p>')
             art.append('<ul class="proof">' + f'<li><a class="chip big" href="mailto:{E(LINKS["email"])}">{E(LINKS["email"])}</a></li>' + link("LinkedIn", LINKS["linkedin"]) + link("GitHub", LINKS["github"]) + link("Product Hunt", LINKS["ph_profile"]) + "</ul>")
         art.append("</article>")
         parts.append("".join(art))
