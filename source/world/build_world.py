@@ -233,7 +233,7 @@ def main():
   <section class="hero" id="hero" aria-label="Introduction">{hero_html()}</section>
   <section class="card" id="card" aria-label="Station"></section>
   <nav class="pager" id="pager" aria-label="Journey"><button type="button" id="bPrev" aria-label="Previous station">&#8592;<span> Previous</span></button><p class="pcount mono" id="pcount" aria-hidden="true"></p><button type="button" id="bNext" aria-label="Next station"><span>Next </span>&#8594;</button></nav>
-  <div class="hintline mono" id="hintline" aria-hidden="true">Scroll, swipe or press &#8594; to ride one stop</div>
+  <div class="hintline mono" id="hintline" aria-hidden="true">Scroll, swipe or press &#8594; to see each experience</div>
   <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="More detail" hidden><div class="sheet-in"><button type="button" class="sheet-x btn" id="sheetX">Close</button><div id="sheetBody"></div></div></div>
 </div>
 <p class="sr" id="live" role="status" aria-live="polite"></p>

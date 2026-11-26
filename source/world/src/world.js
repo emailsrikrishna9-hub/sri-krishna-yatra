@@ -416,6 +416,26 @@
   var dots = document.createElement('span'); dots.className = 'dots';
   D.chapters.forEach(function (ch, i) { var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-go', i); b.setAttribute('aria-label', 'Go to ' + (i ? ch.label : 'the start')); b.title = i ? ch.label : 'Start'; dots.appendChild(b); });
   pcount.parentNode.insertBefore(dots, pcount.nextSibling);
+  /* a card with several experiences: each gesture opens the next one, and the train leaves after the last */
+  var enterAtEnd = false;
+  function expList() { return card.querySelectorAll('.items > .item'); }
+  function openIndex(all) { for (var i = 0; i < all.length; i++) if (all[i].classList.contains('open')) return i; return 0; }
+  function showExp(k) {
+    var all = expList(); if (!all[k]) return;
+    for (var i = 0; i < all.length; i++) { var on = i === k; all[i].classList.toggle('open', on); all[i].querySelector('.ih').setAttribute('aria-expanded', on ? 'true' : 'false'); if (on) all[i].classList.add('seen'); }
+    var n = card.querySelector('.stepno'); if (n) n.textContent = 'Experience ' + (k + 1) + ' of ' + all.length + (k < all.length - 1 ? ' \u00b7 scroll for the next' : '');
+    card.scrollTop = k === 0 ? 0 : Math.max(0, all[k].offsetTop - 8);
+  }
+  function step(dir) {
+    if (moving || sheetOpen) return;
+    var all = expList();
+    if (all.length > 1) {
+      var k = openIndex(all) + dir;
+      if (k >= 0 && k < all.length) { showExp(k); live.textContent = all[k].querySelector('.in').textContent + ', experience ' + (k + 1) + ' of ' + all.length + '.'; return; }
+    }
+    enterAtEnd = dir < 0;
+    go(cur + dir);
+  }
   function setDisabled(b, off) { b.disabled = off; b.setAttribute('aria-disabled', off ? 'true' : 'false'); }
   function showStop(i, announce) {
     var ch = D.chapters[i];
@@ -425,7 +445,10 @@
     if (i === 0) { card.textContent = ''; }
     else {
       var t = document.getElementById('t-' + ch.id); card.innerHTML = t ? t.innerHTML : '';
-      card.classList.toggle('right', i % 2 === 0); card.classList.toggle('wide', !!t && ch.id === 'contact'); card.scrollTop = 0; void card.offsetWidth; card.classList.add('show');
+      card.classList.toggle('right', i % 2 === 0); card.classList.toggle('wide', !!t && ch.id === 'contact');
+      var all = expList();
+      if (all.length > 1) { var no = document.createElement('p'); no.className = 'stepno mono'; var list = card.querySelector('.items'); list.parentNode.insertBefore(no, list); showExp(enterAtEnd ? all.length - 1 : 0); }
+      enterAtEnd = false; card.scrollTop = 0; void card.offsetWidth; card.classList.add('show');
     }
     pcount.textContent = i === 0 ? 'Start' : String(i).padStart(2, '0') + ' / ' + String(N - 1).padStart(2, '0') + ' ' + ch.label;
     setDisabled(bPrev, i === 0); setDisabled(bNext, i === N - 1);
@@ -460,11 +483,11 @@
   $('sheetX').addEventListener('click', function () { closeCase(); });
   function closeIndex() { idxEl.hidden = true; bIndex.setAttribute('aria-expanded', 'false'); }
   bIndex.addEventListener('click', function () { var show = idxEl.hidden; idxEl.hidden = !show; bIndex.setAttribute('aria-expanded', show ? 'true' : 'false'); if (show) { var b = idxEl.querySelector('button.on') || idxEl.querySelector('button'); if (b) b.focus({ preventScroll: true }); } });
-  bPrev.addEventListener('click', function () { go(cur - 1); });
-  bNext.addEventListener('click', function () { go(cur + 1); });
+  bPrev.addEventListener('click', function () { step(-1); });
+  bNext.addEventListener('click', function () { step(1); });
   document.addEventListener('click', function (e) {
     var t = e.target; if (!t.closest) return;
-    var ih = t.closest('.ih'); if (ih) { var box = ih.closest('.items'), all = box.querySelectorAll('.item'); for (var q2 = 0; q2 < all.length; q2++) { var on = all[q2] === ih.parentNode; all[q2].classList.toggle('open', on); all[q2].querySelector('.ih').setAttribute('aria-expanded', on ? 'true' : 'false'); } return; }
+    var ih = t.closest('.ih'); if (ih) { showExp(Array.prototype.indexOf.call(expList(), ih.parentNode)); return; }
     var c = t.closest('[data-case]'); if (c) { e.preventDefault(); openCase(c.getAttribute('data-case'), c); return; }
     var b = t.closest('[data-go]'); if (b && !plainEl.contains(b)) { e.preventDefault(); var viaIdx = !!b.closest('#index'); closeIndex(); open(parseInt(b.getAttribute('data-go'), 10), viaIdx); }
   });
@@ -472,6 +495,11 @@
   /* a tall card scrolls itself first; the train only moves from its top or bottom edge */
   function cardRoom(t, dir) {
     if (!t || !card.contains(t) || card.scrollHeight - card.clientHeight < 2) return false;
+    var all = expList();
+    if (all.length > 1) {
+      var k = openIndex(all), it = all[k];
+      return dir > 0 ? it.offsetTop + it.offsetHeight > card.scrollTop + card.clientHeight + 1 : card.scrollTop > (k === 0 ? 0 : Math.max(0, it.offsetTop - 8)) + 1;
+    }
     return dir > 0 ? card.scrollTop + card.clientHeight < card.scrollHeight - 1 : card.scrollTop > 0;
   }
   /* input: wheel. A burst of wheel events (including trackpad momentum) is one gesture. */
@@ -488,19 +516,19 @@
     e.preventDefault();
     if (mag < 4 || moving) return;
     if (gestureUsed && !surge) return;
-    gestureUsed = true; go(cur + dir);
+    gestureUsed = true; step(dir);
   }, { passive: false });
   /* input: touch swipe, one stop per swipe */
   var tx0 = 0, ty0 = 0, tOk = false, tDown = false, tUp = false;
   window.addEventListener('touchstart', function (e) {
-    var t = e.target; tOk = !(plainOn() || sheetOpen || e.touches.length > 1 || (t.closest && t.closest('#index, button, a, input')));
+    var t = e.target; tOk = !(plainOn() || sheetOpen || e.touches.length > 1 || (t.closest && !t.closest('.ih') && t.closest('#index, button, a, input')));
     if (tOk) { tx0 = e.touches[0].clientX; ty0 = e.touches[0].clientY; tDown = cardRoom(t, 1); tUp = cardRoom(t, -1); }
   }, { passive: true });
   window.addEventListener('touchend', function (e) {
     if (!tOk) return; tOk = false; var t = e.changedTouches[0], dx = t.clientX - tx0, dy = t.clientY - ty0;
     if (Math.max(Math.abs(dx), Math.abs(dy)) < 52) return;
     if (Math.abs(dy) >= Math.abs(dx) && (dy < 0 ? tDown : tUp)) return;
-    if (Math.abs(dy) >= Math.abs(dx)) go(cur + (dy < 0 ? 1 : -1)); else go(cur + (dx < 0 ? 1 : -1));
+    if (Math.abs(dy) >= Math.abs(dx)) step(dy < 0 ? 1 : -1); else step(dx < 0 ? 1 : -1);
   }, { passive: true });
   /* input: keyboard */
   window.addEventListener('keydown', function (e) {
@@ -516,7 +544,7 @@
     var k = e.key, next = k === 'ArrowDown' || k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey && !onCtl), prev = k === 'ArrowUp' || k === 'ArrowLeft' || k === 'PageUp' || (k === ' ' && e.shiftKey && !onCtl);
     if (onCtl && (k === 'ArrowDown' || k === 'ArrowUp') && e.target.closest && e.target.closest('#index')) { var bs = Array.prototype.slice.call(idxEl.querySelectorAll('button')), ix = bs.indexOf(e.target); var nx = bs[clamp(ix + (k === 'ArrowDown' ? 1 : -1), 0, bs.length - 1)]; if (nx) { e.preventDefault(); nx.focus(); } return; }
     if (onCtl && (k === 'ArrowLeft' || k === 'ArrowRight')) return;
-    if (next) { e.preventDefault(); go(cur + 1); } else if (prev) { e.preventDefault(); go(cur - 1); }
+    if (next) { e.preventDefault(); step(1); } else if (prev) { e.preventDefault(); step(-1); }
     else if (k === 'Home') { e.preventDefault(); open(0, true); } else if (k === 'End') { e.preventDefault(); open(N - 1, true); }
   });
   window.addEventListener('hashchange', function () { var h = location.hash.replace('#', ''); for (var i = 0; i < N; i++) if (D.chapters[i].id === h && i !== cur) { open(i, true); return; } });
