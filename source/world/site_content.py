@@ -125,7 +125,7 @@ CHAPTERS = [
                   a="Reviewed the inventory and developed a QR-based tracking approach.",
                   c="An asset-verification internship in nonprofit operations.",
                   src="Source: résumé (figures); completion certificate, 1 to 30 Jun 2024"),
-             dict(name="NITI Aayog", when="New Delhi, Aug to Oct 2024", logos=["niti"],
+             dict(name="NITI Aayog", letter=dict(id="niti", btn="See the letter", title="NITI Aayog internship letter", cap="Confirms the internship in the Agriculture vertical, 7 August to 4 October 2024, and a report on the pulses sector. Contact details and reference number are covered."), when="New Delhi, Aug to Oct 2024", logos=["niti"],
                   r="Produced a research recommendation on pulse-market volatility.",
                   a="Analysed production, import, and price data and compared policy choices.",
                   c="A policy research internship focused on agricultural trade.",
@@ -134,7 +134,7 @@ CHAPTERS = [
 
     dict(id="competing", n=4, label="Competing and organising", year="2025 to 2026", board="HARVARD", sub="BOSTON, FEB 2025", country="US", mon="harvard", logos=["harvard", "mu"], biome=9,
          title="Competing and organising, 2025 to 2026", stamp=("CO", "2025"), items=[
-             dict(name="HPAIR Impact Challenge", when="Harvard, Feb 2025", logos=["harvard"],
+             dict(name="HPAIR Impact Challenge", letter=dict(id="hpair", btn="See the acceptance letter", title="HPAIR Harvard Conference 2025 acceptance", cap="Confirms selection for the conference, 7 to 9 February 2025. It does not mention the Impact Challenge."), when="Harvard, Feb 2025", logos=["harvard"],
                   r="Won Round 1 of the HPAIR Impact Challenge on 9 February 2025.",
                   a="Built a finance model for slum schools in Nairobi.",
                   c="A conference competition with participants from 40+ countries. The HPAIR letter confirms the first round only.",

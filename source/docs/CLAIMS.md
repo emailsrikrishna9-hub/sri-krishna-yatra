@@ -48,3 +48,5 @@ Added 26 Nov 2026 (published 26 Nov 2026): outreach agents built on Muse, indivi
 26 Nov 2026 (published 26 Nov 2026): redacted images of the Icon, Collector, AIESEC, SRISTI (page 1) and Akshaya letters added at the user's request. Kashmir Festival source line removed.
 
 26 Nov 2026 (published 26 Nov 2026): Jagriti train photo and IIFT result image downloaded from the user's own LinkedIn posts with permission; train photo cropped to remove people at the window.
+
+26 Nov 2026 (published 26 Nov 2026): NITI Aayog letter (redacted) and HPAIR 2025 acceptance letter added from the user's evidence pack. HPAIR Impact Challenge letter held back: its footer banner shows the 2026 conference.
