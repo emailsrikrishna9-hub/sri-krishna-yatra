@@ -36,3 +36,7 @@ Recommendation quotes (read 25 Nov 2026 from the signed-in LinkedIn recommendati
 Approved 25 Nov 2026: Gruha Lakshmi (Collector certificate); TEDx licensee and Kashmir Festival (institute letters); Prompt2Profit three campuses (LinkedIn posts); CaseUnion college reach (own post); Policy Gazette, followers (LinkedIn); goSTOPS (LinkedIn About, no certificate); Careers Club "13 clubs report to me", 8X hackathon and London base (user statements, not independently verified).
 
 Published 25 Nov 2026: "Travelled all 28 states of India" (user statement). Work board at the last stop repeats figures already on the cards.
+
+Added 26 Nov 2026 (published 26 Nov 2026): Jagriti Yatra yatri 2023, ambassador 2024 and 2025, podcast and selection committee 2026 (user statement).
+
+Added 26 Nov 2026 (published 26 Nov 2026): outreach agents built on Muse, individual sponsorship and registration drive (user statements, not independently verified).
