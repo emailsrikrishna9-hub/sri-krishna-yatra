@@ -20,7 +20,7 @@ N = len(CHAPTERS)
 LOGOFILES = {"niti": "niti.png", "harvard": "harvard.svg", "mu": "mu.png", "akshaya": "akshaya.png", "telangana": "telangana.svg", "aiesec": "aiesec.jpg", "icon": "icon.jpg", "jagriti": "jagriti.webp", "iift": "iift.png", "rotaract": "rotaract.png", "iima": "iima.png", "nitw": "nitw.png", "iitgn": "iitgn.png", "svnit": "svnit.png", "tie": "tie.png", "sristi": "sristi.png", "iis": "iis.png"}
 LOGONAMES = {"niti": "NITI Aayog", "harvard": "Harvard (HPAIR conference)", "mu": "Masters' Union", "akshaya": "The Akshaya Patra Foundation",
              "telangana": "Government of Telangana", "aiesec": "AIESEC", "icon": "Icon Creations", "ted": "TEDx", "jagriti": "Jagriti Yatra", "iift": "IIFT Delhi", "rotaract": "Rotaract", "iima": "IIM Ahmedabad", "nitw": "NIT Warangal", "iitgn": "IIT Gandhinagar", "svnit": "SVNIT Surat", "tie": "TiE Ahmedabad", "sristi": "SRISTI", "iis": "Indian Institute of Sustainability"}
-LABELS = (("Result", "r"), ("Action", "a"), ("Context", "c"))
+LABELS = (("The win", "r"), ("My move", "a"), ("Backdrop", "c"))
 
 
 def logo_tile(k):
@@ -69,8 +69,9 @@ def item_body(it, fallback=False):
     tail = ""
     if it.get("quote"):
         q = it["quote"]
+        qlink = (f' <a href="{E(q["url"])}" target="_blank" rel="noopener">LinkedIn recommendation<span class="sr"> (opens in a new tab)</span></a>' if q.get("url") else "")
         tail += (f'<figure class="quote"><blockquote>&ldquo;{E(q["text"])}&rdquo;</blockquote>'
-                 f'<figcaption><b>{E(q["name"])}</b> {E(q["role"])} <a href="{E(q["url"])}" target="_blank" rel="noopener">LinkedIn recommendation<span class="sr"> (opens in a new tab)</span></a></figcaption></figure>')
+                 f'<figcaption><b>{E(q["name"])}</b> {E(q["role"])}{qlink}</figcaption></figure>')
     if it.get("proof"):
         tail += '<ul class="proof">' + "".join(link(l, h) for l, h in it["proof"]) + "</ul>"
     if it.get("src"):
@@ -132,15 +133,16 @@ def case_html(cid, prefix):
 
 
 def hero_html():
-    ents = "".join(f'<li><button type="button" class="chipcard" data-go="{e["go"]}"><em>{E(e["n"])}</em><b>{E(e["k"])}</b><span>{E(e["v"])}</span></button></li>' for e in HERO["entries"])
+    pics = "".join(f'<li><button type="button" class="hpic" data-go="{p["go"]}"><img src="{E(p["src"])}" alt="{E(p["alt"])}" style="object-position:{E(p["pos"])}"><span>{E(p["cap"])}</span></button></li>' for p in HERO["photos"])
+    nums = "".join(f'<li><button type="button" class="hnum" data-go="{e["go"]}"><b>{E(e["n"])}</b> {E(e["k"])}</button></li>' for e in HERO["entries"])
     return f"""<div class="h-in">
       <p class="mono h-k">{E(HERO['kicker'])}</p>
       <h1 class="h-h1">{E(HERO['h1'])}</h1>
       <p class="h-sub">{E(HERO['sub'])}</p>
-      <ul class="chips" aria-label="Start with one kind of work">{ents}</ul>
+      <ul class="h-pics" aria-label="Moments from the work">{pics}</ul>
+      <ul class="h-nums" aria-label="Highlights">{nums}</ul>
       <p class="h-act"><button class="btn big" type="button" data-go="{HERO['start']['go']}" id="bExplore">{E(HERO['start']['label'])}</button><button class="btn big h-mail" type="button" data-go="{HERO['all']['go']}">{E(HERO['all']['label'])}</button><a class="btn big h-mail" href="mailto:{E(LINKS['email'])}">Email me</a></p>
-    </div>
-    <figure class="h-photo"><img src="{E(HERO['photo']['src'])}" alt="{E(HERO['photo']['alt'])}" width="480" height="320"><figcaption class="mono">{E(HERO['photo']['cap'])}</figcaption></figure>"""
+    </div>"""
 
 
 def fallback_html():
@@ -228,7 +230,7 @@ def main():
     for d in ("assets/css", "assets/js", "assets/vendor", "assets/img", "assets/logos"):
         (OUT / d).mkdir(parents=True)
     shutil.copytree(ROOT / "assets/fonts", OUT / "assets/fonts", ignore=shutil.ignore_patterns("Geist*"))
-    imgs = {HERO["photo"]["src"]}
+    imgs = {p["src"] for p in HERO["photos"] if p["src"].startswith("assets/img/")}
     works = set()
     for c in CHAPTERS:
         for it in c.get("items", []):
@@ -238,6 +240,7 @@ def main():
         for b in cs["blocks"]:
             if "fig" in b:
                 works.add(b["fig"]["src"])
+    works |= {p["src"] for p in HERO["photos"] if not p["src"].startswith("assets/img/")}
     for src in imgs | works:
         (OUT / src).parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(ROOT / src, OUT / src)

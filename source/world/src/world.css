@@ -315,3 +315,25 @@ html.no-js #gl,html.no-js .vig,html.no-js .cut,html.no-js .hud{display:none}
 .card.wide .wt b{font-size:.8rem}.card.wide .wt .wd{font-size:.72rem;line-height:1.2}
 .card.wide .walso{margin-top:6px}.card.wide .walso .lg{height:28px}
 @media (max-width:760px){.card.wide{top:62px;bottom:calc(78px + env(safe-area-inset-bottom));padding:10px 12px}}
+
+/* first screen: headline, three photos, one line of highlights */
+.hero{display:block}
+.hero::before{background:linear-gradient(90deg,rgba(6,14,30,.72),rgba(6,14,30,.35) 65%,transparent 90%)}
+.h-pics{list-style:none;margin:0 0 12px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:min(900px,100%)}
+.hpic{display:block;width:100%;padding:0;font:inherit;color:var(--cream);background:none;border:0;cursor:pointer;text-align:left}
+.hpic img{display:block;width:100%;height:clamp(110px,29vh,270px);object-fit:cover;border:5px solid var(--cream);border-radius:18px;box-shadow:6px 8px 0 var(--saffron);transition:transform .2s}
+.hpic:hover img{transform:translateY(-3px)}
+.hpic span{display:block;margin-top:12px;font-weight:800;font-size:.9rem;line-height:1.2;text-shadow:0 1px 8px rgba(0,0,0,.9)}
+.h-nums{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.hnum{font:inherit;font-size:.85rem;color:var(--cream);background:rgba(11,29,58,.75);border:1.5px solid rgba(246,239,224,.6);border-radius:999px;min-height:44px;padding:4px 14px;cursor:pointer}
+.hnum:hover{border-color:var(--gold)}
+.hnum b{color:var(--gold);font-size:1rem}
+@media (max-width:860px){
+  .h-pics{gap:8px;margin-bottom:10px}
+  .hpic img{height:clamp(96px,19vh,190px);border-width:3px;border-radius:12px;box-shadow:3px 4px 0 var(--saffron)}
+  .hpic span{font-size:.68rem;margin-top:8px}
+  .h-nums{gap:5px;margin-bottom:10px}.hnum{font-size:.72rem;padding:3px 10px;min-height:40px}.hnum b{font-size:.82rem}
+}
+/* buttons follow the highlights; photos shrink on short laptop screens */
+.h-act{position:static;margin-top:12px}
+@media (min-width:861px){.hpic img{height:clamp(96px,calc(100svh - 520px),270px)}}

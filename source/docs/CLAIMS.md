@@ -40,3 +40,7 @@ Published 25 Nov 2026: "Travelled all 28 states of India" (user statement). Work
 Added 26 Nov 2026 (published 26 Nov 2026): Jagriti Yatra yatri 2023, ambassador 2024 and 2025, podcast and selection committee 2026 (user statement).
 
 Added 26 Nov 2026 (published 26 Nov 2026): outreach agents built on Muse, individual sponsorship and registration drive (user statements, not independently verified).
+
+26 Nov 2026 (published 26 Nov 2026): first screen redesigned with three photos.
+
+26 Nov 2026 (published 26 Nov 2026): Shodh Yatra card and quote now from the SRISTI letter of recommendation (undated, signed and stamped, held privately). It replaces the LinkedIn excerpt from the same person.
