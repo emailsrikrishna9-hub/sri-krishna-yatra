@@ -337,3 +337,6 @@ html.no-js #gl,html.no-js .vig,html.no-js .cut,html.no-js .hud{display:none}
 /* buttons follow the highlights; photos shrink on short laptop screens */
 .h-act{position:static;margin-top:12px}
 @media (min-width:861px){.hpic img{height:clamp(96px,calc(100svh - 520px),270px)}}
+
+.case.letter figure img{max-height:none;width:100%;height:auto}
+.thumb img[src$="jagriti-train.jpg"]{object-position:50% 14%}

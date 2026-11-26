@@ -27,8 +27,8 @@ HERO = dict(
              alt="Sri Krishna Taak standing behind the Harvard Business School sign"),
         dict(go=3, src="assets/work/iccg5-podium.jpg", pos="0% 44%", cap="Speaking at IIM Ahmedabad",
              alt="Sri Krishna Taak speaking at the podium of the ICCG 5 conference at IIM Ahmedabad, January 2025"),
-        dict(go=4, src="assets/img/jagriti-fireside-sri-listening.jpg", pos="50% 30%", cap="Fireside chat, Masters' Union",
-             alt="Sri Krishna Taak seated on stage during a fireside chat at Masters' Union"),
+        dict(go=4, src="assets/work/jagriti-train.jpg", pos="50% 12%", cap="On Jagriti Yatra",
+             alt="Sri Krishna Taak holding the Indian flag beside the Jagriti Yatra train"),
     ],
     start=dict(go=1, label="Start in Cairo"),
     all=dict(go=8, label="See all my work"),
@@ -75,7 +75,7 @@ CHAPTERS = [
 
     dict(id="icon-creations", n=1, label="Icon Creations", year="2023", board="CAIRO", sub="ICON CREATIONS, 2023", country="EG", mon="pyramids", logos=["icon"], biome=1,
          title="Cairo: where the journey starts", stamp=("IC", "2023"), items=[
-             dict(name="Icon Creations", when="Cairo, Jun to Jul 2023", logos=["icon"],
+             dict(name="Icon Creations", letter=dict(id="icon", btn="See the certificate", title="Icon Creations certificate of paid internship", cap="Confirms the six-week paid placement, 12 June to 26 July 2023, and top-performing intern."), when="Cairo, Jun to Jul 2023", logos=["icon"],
                   r="Recognized as a top-performing intern in a six-week paid placement.",
                   a="Created social content, copy, articles, and research for the agency. Quality-tested a client AI chatbot.",
                   c="My first international operating role, at Icon Creations in Cairo.",
@@ -86,12 +86,12 @@ CHAPTERS = [
 
     dict(id="campus-government", n=2, label="Government and campus", year="2023 to 2024", board="AHMEDABAD", sub="CAMPUS AND DISTRICT", country="IN", mon="mosque", logos=["telangana", "aiesec", "ted"], biome=4,
          title="Government and campus, 2023 to 2024", stamp=("GC", "2023"), items=[
-             dict(name="Collector's Office", when="Narayanpet, Aug to Sep 2023", logos=["telangana"],
+             dict(name="Collector's Office", letter=dict(id="collector", btn="See the certificate", title="District Collector's internship certificate", cap="Confirms the internship, 18 August to 18 September 2023. Contact details and a family name are covered."), when="Narayanpet, Aug to Sep 2023", logos=["telangana"],
                   r="Worked on the district rollout of Gruha Lakshmi, a ₹12,000-crore scheme covering about 4 million people.",
                   a="Joined 25+ senior government meetings, made 50 field visits and supported 4 grievance sessions with 200+ citizens.",
                   c="The figures are the scheme's size, not a budget I managed.",
                   src="Source: internship certificate from the District Collector (held privately) and résumé"),
-             dict(name="AIESEC Ahmedabad", when="Aug 2023 to Jul 2024", logos=["aiesec"],
+             dict(name="AIESEC Ahmedabad", letter=dict(id="aiesec", btn="See the letter", title="AIESEC experience letter", cap="Confirms membership, roles and results, August 2023 to July 2024. Signer's contact details are cropped."), when="Aug 2023 to Jul 2024", logos=["aiesec"],
                   r="Helped secure 10+ exchange approvals and earned Best Team Leader and Best Team recognition.",
                   a="Built international relationships and worked on recruitment and onboarding.",
                   c="A year in a student-run international organization.",
@@ -106,13 +106,12 @@ CHAPTERS = [
              dict(name="Kashmir Festival", when="Gandhinagar", logos=["iis"],
                   r="Led 30 students at a festival attended by the Union Home Minister.",
                   a="Ran the student team for the festival.",
-                  c="A campus role at the Indian Institute of Sustainability.",
-                  src="Source: letter from the institute and résumé"),
+                  c="A campus role at the Indian Institute of Sustainability."),
          ]),
 
     dict(id="field-research", n=3, label="Field and research", year="2024", board="NAGAUR TO DELHI", sub="FIELD, NONPROFIT, POLICY", country="IN", mon="fort", logos=["akshaya", "niti"], biome=6,
          title="Field and research, 2024", stamp=("FR", "2024"), items=[
-             dict(name="Shodh Yatra", when="Rajasthan, Jun 2024", logos=[],
+             dict(name="Shodh Yatra", letter=dict(id="sristi", btn="See the letter", title="SRISTI letter of recommendation, page 1", cap="From Chetan V. Patel, SRISTI. Contact details are cropped."), when="Rajasthan, Jun 2024", logos=[],
                   r="Core organiser of a 140 km Shodh Yatra through 12 villages in Rajasthan.",
                   a="Managed accommodation and the route, supported 20+ meetings, and coordinated with police and district officials.",
                   c="Nearly 90% of post-yatra reports came in. I also joined the Nagaland and Bihar yatras, with SRISTI.",
@@ -121,7 +120,7 @@ CHAPTERS = [
                              cap="Presenting Shodh Yatra learnings at ICCG 5, IIM Ahmedabad, 28 to 30 Jan 2025"),
                   quote=dict(text="He listens carefully, treats everyone with respect, and makes sure no one feels left out.",
                              name="Chetan V. Patel", role="Secretary, SRISTI; National Coordinator, Shodh Yatra. From a letter of recommendation.")),
-             dict(name="Akshaya Patra", when="Ahmedabad, Jun 2024", logos=["akshaya"],
+             dict(name="Akshaya Patra", letter=dict(id="akshaya", btn="See the certificate", title="Akshaya Patra internship certificate", cap="Confirms the internship and asset verification project, 1 to 30 June 2024. Contact details are covered."), when="Ahmedabad, Jun 2024", logos=["akshaya"],
                   r="Verified 700+ assets valued at ₹20+ crore.",
                   a="Reviewed the inventory and developed a QR-based tracking approach.",
                   c="An asset-verification internship in nonprofit operations.",
@@ -157,12 +156,12 @@ CHAPTERS = [
                   a="Designed strategies for organising hackathons.",
                   c="A role in the Masters' Union Director's Office. The ₹10 lakh was the winner's prize, not mine.",
                   src="Source: résumé"),
-             dict(name="Jagriti Yatra", when="2023 to 2026", logos=["jagriti"],
+             dict(name="Jagriti Yatra", when="2023 to 2026", logos=["jagriti"], thumb=dict(src="assets/work/jagriti-train.jpg", alt="Sri Krishna Taak holding the Indian flag beside the Jagriti Yatra train", cap="Beside the Jagriti Yatra train"),
                   r="Yatri in 2023, ambassador in 2024 and 2025, selection committee in 2026.",
                   a="In 2026, hosted a podcast and moderated a fireside chat with Shashank Mani, MP and founder of Jagriti Yatra.",
                   c="Four years with the same entrepreneurship journey, from participant to helping select.",
                   src="Source: my own account and r\u00e9sum\u00e9"),
-             dict(name="Awards and reach", when="2026", logos=["iift"],
+             dict(name="Awards and reach", letter=dict(id="iift", btn="See the result", title="Policy Gazette 2026 result message", cap="Message from Team Praxis, IIFT Delhi, announcing third position. From my LinkedIn post."), when="2026", logos=["iift"],
                   r="3rd place, The Policy Gazette 2026, IIFT Delhi.",
                   a="2nd runner-up of 90 teams, goSTOPS One Day Challenge.",
                   c="11,058 LinkedIn followers on 25 November 2026.",
@@ -221,6 +220,7 @@ CHAPTERS = [
          ]),
 ]
 
+# Letter images in assets/proof are redacted copies; never add an unredacted scan.
 # Longer write-ups for the two featured stories. Blocks: h, p, ul, fig, timeline, nums.
 CASES = {
     "caseunion": dict(

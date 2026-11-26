@@ -76,6 +76,8 @@ def item_body(it, fallback=False):
         tail += '<ul class="proof">' + "".join(link(l, h) for l, h in it["proof"]) + "</ul>"
     if it.get("src"):
         tail += f'<p class="src">{E(it["src"])}</p>'
+    if it.get("letter") and not fallback:
+        tail += f'<p class="cact"><button type="button" class="btn big" data-case="letter-{E(it["letter"]["id"])}">{E(it["letter"]["btn"])}</button></p>'
     if it.get("more") and not fallback:
         tail += f'<p class="cact"><button type="button" class="btn big" data-case="{E(it["more"])}">More detail</button></p>'
     out.append(f'<div class="cmeta">{tail}</div>')
@@ -132,6 +134,15 @@ def case_html(cid, prefix):
     return "".join(out)
 
 
+def letters():
+    return [it["letter"] for c in CHAPTERS for it in c.get("items", []) if it.get("letter")]
+
+
+def letter_html(l):
+    return (f'<article class="case letter"><header><p class="mono">Proof</p><h2 class="cs-title" tabindex="-1">{E(l["title"])}</h2></header>'
+            f'<p>{E(l["cap"])}</p><figure><img src="assets/proof/{E(l["id"])}.jpg" alt="{E(l["title"])}"></figure></article>')
+
+
 def hero_html():
     pics = "".join(f'<li><button type="button" class="hpic" data-go="{p["go"]}"><img src="{E(p["src"])}" alt="{E(p["alt"])}" style="object-position:{E(p["pos"])}"><span>{E(p["cap"])}</span></button></li>' for p in HERO["photos"])
     nums = "".join(f'<li><button type="button" class="hnum" data-go="{e["go"]}"><b>{E(e["n"])}</b> {E(e["k"])}</button></li>' for e in HERO["entries"])
@@ -168,6 +179,7 @@ def main():
     data = dict(chapters=chapters, logos=LOGOFILES, logoNames=LOGONAMES)
     templates = [f'<template id="t-{c["id"]}">{card_html(c)}</template>' for c in CHAPTERS[1:]]
     templates += [f'<template id="c-{cid}">{case_html(cid, "case-")}</template>' for cid in CASES]
+    templates += [f'<template id="c-letter-{l["id"]}">{letter_html(l)}</template>' for l in letters()]
     index_items = "".join(f'<li><button type="button" data-go="{c["n"]}"><b>{c["n"]:02d}</b><span>{E(c["label"])}<small>{E(c["year"])}</small></span></button></li>' for c in CHAPTERS)
     ld = json.dumps({"@context": "https://schema.org", "@type": "Person", "name": NAME, "url": LINKS["site"],
                      "sameAs": [LINKS["linkedin"], LINKS["github"], LINKS["ph_profile"]],
@@ -241,6 +253,7 @@ def main():
             if "fig" in b:
                 works.add(b["fig"]["src"])
     works |= {p["src"] for p in HERO["photos"] if not p["src"].startswith("assets/img/")}
+    works |= {f"assets/proof/{l['id']}.jpg" for l in letters()}
     for src in imgs | works:
         (OUT / src).parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(ROOT / src, OUT / src)

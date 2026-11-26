@@ -44,3 +44,7 @@ Added 26 Nov 2026 (published 26 Nov 2026): outreach agents built on Muse, indivi
 26 Nov 2026 (published 26 Nov 2026): first screen redesigned with three photos.
 
 26 Nov 2026 (published 26 Nov 2026): Shodh Yatra card and quote now from the SRISTI letter of recommendation (undated, signed and stamped, held privately). It replaces the LinkedIn excerpt from the same person.
+
+26 Nov 2026 (published 26 Nov 2026): redacted images of the Icon, Collector, AIESEC, SRISTI (page 1) and Akshaya letters added at the user's request. Kashmir Festival source line removed.
+
+26 Nov 2026 (published 26 Nov 2026): Jagriti train photo and IIFT result image downloaded from the user's own LinkedIn posts with permission; train photo cropped to remove people at the window.
