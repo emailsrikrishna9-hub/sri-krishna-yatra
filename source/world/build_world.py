@@ -23,10 +23,22 @@ LOGONAMES = {"niti": "NITI Aayog", "harvard": "Harvard (HPAIR conference)", "mu"
 LABELS = (("The win", "r"), ("My move", "a"), ("Backdrop", "c"))
 
 
+LOGOURLS = {"icon": "https://icon-creations.com/", "telangana": "https://www.telangana.gov.in/", "aiesec": "https://www.aiesec.in/",
+            "ted": "https://www.ted.com/tedx", "iis": "https://www.gujaratuniversity.ac.in/", "sristi": "https://www.sristi.org/",
+            "akshaya": "https://www.akshayapatra.org/", "niti": "https://www.niti.gov.in/", "iima": "https://www.iima.ac.in/",
+            "harvard": "https://www.hpair.org/", "mu": "https://mastersunion.org/", "jagriti": "https://www.jagritiyatra.com/",
+            "iift": "https://www.iift.ac.in/", "rotaract": "https://www.rotary.org/en/get-involved/rotaract-clubs",
+            "nitw": "https://www.nitw.ac.in/", "iitgn": "https://iitgn.ac.in/", "svnit": "https://www.svnit.ac.in/",
+            "tie": "https://ahmedabad.tie.org/"}
+
+
 def logo_tile(k):
-    if k == "ted":
-        return '<span class="lg tx" role="img" aria-label="TEDx">TED<i>x</i></span>'
-    return f'<span class="lg"><img src="assets/logos/{E(LOGOFILES[k])}" alt="{E(LOGONAMES[k])}" height="30"></span>'
+    """A logo that opens the organisation's website. Never place it inside a button."""
+    name = LOGONAMES[k]
+    inner = 'TED<i>x</i>' if k == "ted" else f'<img src="assets/logos/{E(LOGOFILES[k])}" alt="" height="30">'
+    cls = "lg tx" if k == "ted" else "lg"
+    return (f'<a class="{cls}" href="{E(LOGOURLS[k])}" target="_blank" rel="noopener noreferrer" '
+            f'title="{E(name)} website" aria-label="{E(name)} website (opens in a new tab)">{inner}</a>')
 
 
 def board_html():
@@ -36,7 +48,7 @@ def board_html():
         tiles = []
         for logo, name, did, when, go in rows:
             mark = logo_tile(logo) if logo else f'<span class="lg tx" aria-hidden="true">{E(name[0])}</span>'
-            tiles.append(f'<li><button type="button" class="wt" data-go="{go}">{mark}<span><b>{E(name)}</b>'
+            tiles.append(f'<li class="wl">{mark}<button type="button" class="wt" data-go="{go}"><span><b>{E(name)}</b>'
                          f'<span class="wd">{E(did)}</span><small class="mono">{E(when)}</small></span></button></li>')
         groups.append(f'<section class="wg"><h3 class="mono">{E(title)}</h3><ul>{"".join(tiles)}</ul></section>')
     also = "".join(logo_tile(k) for k in ALLWORK["also"])
@@ -106,8 +118,8 @@ def card_html(ch):
         logos = "".join(logo_tile(k) for k in it.get("logos", []))
         op = i == 0
         parts.append(
-            f'<div class="item{" open" if op else ""}"><button type="button" class="ih" aria-expanded="{"true" if op else "false"}">'
-            f'<span class="in">{logos}{E(it["name"])}</span><span class="iw mono">{E(it["when"])}</span></button>'
+            f'<div class="item{" open" if op else ""}{" haslg" if logos else ""}">' + (f'<span class="hlg">{logos}</span>' if logos else "") + f'<button type="button" class="ih" aria-expanded="{"true" if op else "false"}">'
+            f'<span class="in">{E(it["name"])}</span><span class="iw mono">{E(it["when"])}</span></button>'
             f'<div class="ib">{item_body(it)}</div></div>')
     return head + '<div class="items">' + "".join(parts) + "</div>"
 

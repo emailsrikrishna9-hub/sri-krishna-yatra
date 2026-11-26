@@ -340,3 +340,20 @@ html.no-js #gl,html.no-js .vig,html.no-js .cut,html.no-js .hud{display:none}
 
 .case.letter figure img{max-height:none;width:100%;height:auto}
 .thumb img[src$="jagriti-train.jpg"]{object-position:50% 14%}
+
+/* logos link to each organisation's website */
+a.lg{text-decoration:none;color:#e62b1e;cursor:pointer;justify-content:center}
+a.lg:hover{box-shadow:0 0 0 3px var(--gold)}
+.item.haslg{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:5px;align-items:center}
+.item.haslg>.ib{grid-column:1/-1}
+.hlg{display:flex;gap:3px}
+.hlg .lg{height:44px;min-width:36px;padding:3px 5px;border-width:1.5px;border-radius:9px}
+.hlg .lg img{height:26px;max-width:58px}
+.hlg .lg.tx{font-size:.8rem}
+.wl{display:grid;grid-template-columns:36px minmax(0,1fr);gap:7px;align-items:center;background:#fff;border:1.5px solid var(--ink);border-radius:10px;padding:2px 6px}
+.card.wide .wl .wt,.wl .wt{display:block;border:0;background:transparent;padding:3px 2px;border-radius:6px;min-height:40px}
+.wl .wt:hover{background:var(--gold)}
+.wl>.lg{width:36px;height:34px;min-width:0;padding:2px;border-width:0}
+.wl>.lg img{max-width:100%;height:100%;object-fit:contain}
+.wl>.lg.tx{font-size:.7rem}
+.wl>span.lg.tx{background:var(--navy);color:var(--gold);font-size:1rem;justify-content:center;border-radius:8px}
